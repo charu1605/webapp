@@ -44,9 +44,24 @@ const UserManagement = () => {
     basePath: '/settings/user-management',
     defaultTab: 'users',
   });
+
+  // Function to handle user invitation
+  const handleInviteUser = async (userData: any) => {
+    try {
+      // Call the API or logic to invite the user
+      await inviteUserApiCall(userData); // Replace this with your API logic
+
+      // After inviting the user, trigger state update to refresh the invitations list
+      setMutateInvitations(prevState => !prevState); // Toggle to refresh Invitations component
+    } catch (error) {
+      console.error('Error inviting user:', error);
+    }
+  };
+
   const handleClickInviteUser = () => {
     setShowInviteUserForm(true);
   };
+
   return (
     <>
       <PageHead title="Dalgo | User Management" />
@@ -82,7 +97,7 @@ const UserManagement = () => {
           </TabPanel>
         )}
         <InviteUserForm
-          mutate={() => console.log('mutate here')}
+          mutate={handleInviteUser} // Pass the mutate function to InviteUserForm
           showForm={showInviteUserForm}
           setShowForm={setShowInviteUserForm}
         />
